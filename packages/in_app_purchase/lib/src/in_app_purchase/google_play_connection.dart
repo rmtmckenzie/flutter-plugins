@@ -56,7 +56,7 @@ class GooglePlayConnection
     BillingResultWrapper billingResultWrapper =
         await billingClient.launchBillingFlow(
             sku: purchaseParam.productDetails.id,
-            accountId: purchaseParam.applicationUserName);
+            obfuscatedAccountId: purchaseParam.applicationUserName);
     return billingResultWrapper.responseCode == BillingResponse.ok;
   }
 
@@ -76,16 +76,14 @@ class GooglePlayConnection
       return BillingResultWrapper(responseCode: BillingResponse.ok);
     }
     return await billingClient.acknowledgePurchase(
-        purchase.verificationData.serverVerificationData,
-        developerPayload: developerPayload);
+        purchase.verificationData.serverVerificationData);
   }
 
   @override
   Future<BillingResultWrapper> consumePurchase(PurchaseDetails purchase,
       {String developerPayload}) {
     return billingClient.consumeAsync(
-        purchase.verificationData.serverVerificationData,
-        developerPayload: developerPayload);
+        purchase.verificationData.serverVerificationData);
   }
 
   @override

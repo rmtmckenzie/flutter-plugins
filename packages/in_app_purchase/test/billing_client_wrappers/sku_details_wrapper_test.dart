@@ -21,7 +21,8 @@ final SkuDetailsWrapper dummySkuDetails = SkuDetailsWrapper(
   subscriptionPeriod: 'subscriptionPeriod',
   title: 'title',
   type: SkuType.inapp,
-  isRewarded: true,
+  iconUrl: "https://an.icon/url",
+  originalJson: "{}",
   originalPrice: 'originalPrice',
   originalPriceAmountMicros: 1000,
 );
@@ -117,8 +118,9 @@ Map<String, dynamic> buildSkuMap(SkuDetailsWrapper original) {
     'subscriptionPeriod': original.subscriptionPeriod,
     'title': original.title,
     'type': original.type.toString().substring(8),
-    'isRewarded': original.isRewarded,
     'originalPrice': original.originalPrice,
     'originalPriceAmountMicros': original.originalPriceAmountMicros,
+    'iconUrl': original.iconUrl,
+    'originalJson': original.originalJson,
   };
 }

@@ -23,10 +23,12 @@ class SkuDetailsWrapper {
   SkuDetailsWrapper({
     @required this.description,
     @required this.freeTrialPeriod,
+    @required this.iconUrl,
     @required this.introductoryPrice,
     @required this.introductoryPriceMicros,
     @required this.introductoryPriceCycles,
     @required this.introductoryPricePeriod,
+    @required this.originalJson,
     @required this.price,
     @required this.priceAmountMicros,
     @required this.priceCurrencyCode,
@@ -34,7 +36,6 @@ class SkuDetailsWrapper {
     @required this.subscriptionPeriod,
     @required this.title,
     @required this.type,
-    @required this.isRewarded,
     @required this.originalPrice,
     @required this.originalPriceAmountMicros,
   });
@@ -64,6 +65,9 @@ class SkuDetailsWrapper {
   /// The billing period of [introductoryPrice], in ISO 8601 format.
   final String introductoryPricePeriod;
 
+  /// Icon of the product.
+  final String iconUrl;
+
   /// Formatted with currency symbol ("$0.99").
   final String price;
 
@@ -83,8 +87,8 @@ class SkuDetailsWrapper {
   /// The [SkuType] of the product.
   final SkuType type;
 
-  /// False if the product is paid.
-  final bool isRewarded;
+  /// Details about this SKU, in JSON.
+  final String originalJson;
 
   /// The original price that the user purchased this product for.
   final String originalPrice;
@@ -102,17 +106,18 @@ class SkuDetailsWrapper {
     return typedOther is SkuDetailsWrapper &&
         typedOther.description == description &&
         typedOther.freeTrialPeriod == freeTrialPeriod &&
+        typedOther.iconUrl == iconUrl &&
         typedOther.introductoryPrice == introductoryPrice &&
         typedOther.introductoryPriceMicros == introductoryPriceMicros &&
         typedOther.introductoryPriceCycles == introductoryPriceCycles &&
         typedOther.introductoryPricePeriod == introductoryPricePeriod &&
+        typedOther.originalJson == originalJson &&
         typedOther.price == price &&
         typedOther.priceAmountMicros == priceAmountMicros &&
         typedOther.sku == sku &&
         typedOther.subscriptionPeriod == subscriptionPeriod &&
         typedOther.title == title &&
         typedOther.type == type &&
-        typedOther.isRewarded == isRewarded &&
         typedOther.originalPrice == originalPrice &&
         typedOther.originalPriceAmountMicros == originalPriceAmountMicros;
   }
@@ -122,17 +127,18 @@ class SkuDetailsWrapper {
     return hashValues(
         description.hashCode,
         freeTrialPeriod.hashCode,
+        iconUrl.hashCode,
         introductoryPrice.hashCode,
         introductoryPriceMicros.hashCode,
         introductoryPriceCycles.hashCode,
         introductoryPricePeriod.hashCode,
+        originalJson.hashCode,
         price.hashCode,
         priceAmountMicros.hashCode,
         sku.hashCode,
         subscriptionPeriod.hashCode,
         title.hashCode,
         type.hashCode,
-        isRewarded.hashCode,
         originalPrice,
         originalPriceAmountMicros);
   }

@@ -1,3 +1,13 @@
+## 0.4.0
+
+* Migrate the `Google Play Library` to 3.0.0.
+     * **[Breaking Change]:** Remove `accountId` from `BillingClient.lauchBillingFlow`
+     * **[Breaking Change]:** Remove `developerPayload` from `BillingClient.consumeAsync` and `BillingClient.acknowledgePurchase` 
+     * **[Breaking Change]:** Remove `isRewarded` from `SkuDetailsWrapper`
+     * Add `obfuscatedAccountId` and `obfuscatedProfileId` to `BillingClient.launchBillingFlow`
+     * Add `iconUrl` and `originalJson` to `SkuDetailsWrapper`
+     * Refer to [Google Play Billing Library Release Note](https://developer.android.com/google/play/billing/release-notes#3-0) for a detailed information on the update.
+
 ## 0.3.4+1
 
 * iOS: Fix the bug that `SKPaymentQueueWrapper.transactions` doesn't return all transactions.

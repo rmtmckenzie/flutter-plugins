@@ -34,6 +34,8 @@ final PurchaseWrapper dummyUnacknowledgedPurchase = PurchaseWrapper(
   developerPayload: 'dummy payload',
   isAcknowledged: false,
   purchaseState: PurchaseStateWrapper.purchased,
+  obfuscatedAccountId: "dummy account id",
+  obfuscatedProfileId: "dummy profile id",
 );
 
 final PurchaseHistoryRecordWrapper dummyPurchaseHistoryRecord =
@@ -155,6 +157,8 @@ Map<String, dynamic> buildPurchaseMap(PurchaseWrapper original) {
     'developerPayload': original.developerPayload,
     'purchaseState': PurchaseStateConverter().toJson(original.purchaseState),
     'isAcknowledged': original.isAcknowledged,
+    'obfuscatedAccountId': original.obfuscatedAccountId,
+    'obfuscatedProfileId': original.obfuscatedProfileId,
   };
 }
 

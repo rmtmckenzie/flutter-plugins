@@ -86,7 +86,7 @@ class MethodCallHandlerImpl
 
   @Override
   public void onActivityDestroyed(Activity activity) {
-    if (this.activity == activity && this.applicationContext != null) {
+    if (this.activity == activity) {
       ((Application) this.applicationContext).unregisterActivityLifecycleCallbacks(this);
       endBillingClientConnection();
     }
@@ -100,7 +100,7 @@ class MethodCallHandlerImpl
   }
 
   @Override
-  public void onMethodCall(MethodCall call, MethodChannel.Result result) {
+  public void onMethodCall(MethodCall call, @NonNull MethodChannel.Result result) {
     switch (call.method) {
       case InAppPurchasePlugin.MethodNames.IS_READY:
         isReady(result);
@@ -120,7 +120,10 @@ class MethodCallHandlerImpl
         break;
       case InAppPurchasePlugin.MethodNames.LAUNCH_BILLING_FLOW:
         launchBillingFlow(
-            (String) call.argument("sku"), (String) call.argument("accountId"), result);
+            (String) call.argument("sku"),
+            (String) call.argument("obfuscatedAccountId"),
+            (String) call.argument("obfuscatedProfileId"),
+            result);
         break;
       case InAppPurchasePlugin.MethodNames.QUERY_PURCHASES:
         queryPurchases((String) call.argument("skuType"), result);
@@ -131,13 +134,11 @@ class MethodCallHandlerImpl
       case InAppPurchasePlugin.MethodNames.CONSUME_PURCHASE_ASYNC:
         consumeAsync(
             (String) call.argument("purchaseToken"),
-            (String) call.argument("developerPayload"),
             result);
         break;
       case InAppPurchasePlugin.MethodNames.ACKNOWLEDGE_PURCHASE:
         acknowledgePurchase(
             (String) call.argument("purchaseToken"),
-            (String) call.argument("developerPayload"),
             result);
         break;
       default:
@@ -189,7 +190,7 @@ class MethodCallHandlerImpl
   }
 
   private void launchBillingFlow(
-      String sku, @Nullable String accountId, MethodChannel.Result result) {
+      String sku, @Nullable String obfuscatedAccountId, @Nullable String obfuscatedProfileId, MethodChannel.Result result) {
     if (billingClientError(result)) {
       return;
     }
@@ -215,16 +216,20 @@ class MethodCallHandlerImpl
 
     BillingFlowParams.Builder paramsBuilder =
         BillingFlowParams.newBuilder().setSkuDetails(skuDetails);
-    if (accountId != null && !accountId.isEmpty()) {
-      paramsBuilder.setAccountId(accountId);
+    if (obfuscatedAccountId != null && !obfuscatedAccountId.isEmpty()) {
+      paramsBuilder.setObfuscatedAccountId(obfuscatedAccountId);
     }
+    if (obfuscatedProfileId != null && !obfuscatedProfileId.isEmpty()) {
+      paramsBuilder.setObfuscatedProfileId(obfuscatedProfileId);
+    }
+
     result.success(
         Translator.fromBillingResult(
             billingClient.launchBillingFlow(activity, paramsBuilder.build())));
   }
 
   private void consumeAsync(
-      String purchaseToken, String developerPayload, final MethodChannel.Result result) {
+      String purchaseToken, final MethodChannel.Result result) {
     if (billingClientError(result)) {
       return;
     }
@@ -239,9 +244,6 @@ class MethodCallHandlerImpl
     ConsumeParams.Builder paramsBuilder =
         ConsumeParams.newBuilder().setPurchaseToken(purchaseToken);
 
-    if (developerPayload != null) {
-      paramsBuilder.setDeveloperPayload(developerPayload);
-    }
     ConsumeParams params = paramsBuilder.build();
 
     billingClient.consumeAsync(params, listener);
@@ -309,13 +311,12 @@ class MethodCallHandlerImpl
   }
 
   private void acknowledgePurchase(
-      String purchaseToken, @Nullable String developerPayload, final MethodChannel.Result result) {
+      String purchaseToken, final MethodChannel.Result result) {
     if (billingClientError(result)) {
       return;
     }
     AcknowledgePurchaseParams params =
         AcknowledgePurchaseParams.newBuilder()
-            .setDeveloperPayload(developerPayload)
             .setPurchaseToken(purchaseToken)
             .build();
     billingClient.acknowledgePurchase(

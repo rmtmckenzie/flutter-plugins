@@ -5,6 +5,8 @@
 package io.flutter.plugins.inapppurchase;
 
 import androidx.annotation.Nullable;
+
+import com.android.billingclient.api.AccountIdentifiers;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchasesResult;
@@ -19,22 +21,23 @@ import java.util.List;
 /*package*/ class Translator {
   static HashMap<String, Object> fromSkuDetail(SkuDetails detail) {
     HashMap<String, Object> info = new HashMap<>();
-    info.put("title", detail.getTitle());
     info.put("description", detail.getDescription());
     info.put("freeTrialPeriod", detail.getFreeTrialPeriod());
+    info.put("iconUrl", detail.getIconUrl());
     info.put("introductoryPrice", detail.getIntroductoryPrice());
     info.put("introductoryPriceAmountMicros", detail.getIntroductoryPriceAmountMicros());
     info.put("introductoryPriceCycles", detail.getIntroductoryPriceCycles());
     info.put("introductoryPricePeriod", detail.getIntroductoryPricePeriod());
+    info.put("originalJson", detail.getOriginalJson());
+    info.put("originalPrice", detail.getOriginalPrice());
+    info.put("originalPriceAmountMicros", detail.getOriginalPriceAmountMicros());
     info.put("price", detail.getPrice());
     info.put("priceAmountMicros", detail.getPriceAmountMicros());
     info.put("priceCurrencyCode", detail.getPriceCurrencyCode());
-    info.put("sku", detail.getSku());
-    info.put("type", detail.getType());
-    info.put("isRewarded", detail.isRewarded());
     info.put("subscriptionPeriod", detail.getSubscriptionPeriod());
-    info.put("originalPrice", detail.getOriginalPrice());
-    info.put("originalPriceAmountMicros", detail.getOriginalPriceAmountMicros());
+    info.put("sku", detail.getSku());
+    info.put("title", detail.getTitle());
+    info.put("type", detail.getType());
     return info;
   }
 
@@ -64,6 +67,12 @@ import java.util.List;
     info.put("developerPayload", purchase.getDeveloperPayload());
     info.put("isAcknowledged", purchase.isAcknowledged());
     info.put("purchaseState", purchase.getPurchaseState());
+
+    AccountIdentifiers accountIdentifiers = purchase.getAccountIdentifiers();
+    if (accountIdentifiers != null) {
+      info.put("obfuscatedAccountId",accountIdentifiers.getObfuscatedAccountId());
+      info.put("obfuscatedProfileId", accountIdentifiers.getObfuscatedProfileId());
+    }
     return info;
   }
 

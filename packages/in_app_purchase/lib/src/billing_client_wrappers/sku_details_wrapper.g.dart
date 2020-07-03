@@ -10,10 +10,12 @@ SkuDetailsWrapper _$SkuDetailsWrapperFromJson(Map json) {
   return SkuDetailsWrapper(
     description: json['description'] as String,
     freeTrialPeriod: json['freeTrialPeriod'] as String,
+    iconUrl: json['iconUrl'] as String,
     introductoryPrice: json['introductoryPrice'] as String,
     introductoryPriceMicros: json['introductoryPriceMicros'] as String,
     introductoryPriceCycles: json['introductoryPriceCycles'] as String,
     introductoryPricePeriod: json['introductoryPricePeriod'] as String,
+    originalJson: json['originalJson'] as String,
     price: json['price'] as String,
     priceAmountMicros: json['priceAmountMicros'] as int,
     priceCurrencyCode: json['priceCurrencyCode'] as String,
@@ -21,7 +23,6 @@ SkuDetailsWrapper _$SkuDetailsWrapperFromJson(Map json) {
     subscriptionPeriod: json['subscriptionPeriod'] as String,
     title: json['title'] as String,
     type: const SkuTypeConverter().fromJson(json['type'] as String),
-    isRewarded: json['isRewarded'] as bool,
     originalPrice: json['originalPrice'] as String,
     originalPriceAmountMicros: json['originalPriceAmountMicros'] as int,
   );
@@ -35,6 +36,7 @@ Map<String, dynamic> _$SkuDetailsWrapperToJson(SkuDetailsWrapper instance) =>
       'introductoryPriceMicros': instance.introductoryPriceMicros,
       'introductoryPriceCycles': instance.introductoryPriceCycles,
       'introductoryPricePeriod': instance.introductoryPricePeriod,
+      'iconUrl': instance.iconUrl,
       'price': instance.price,
       'priceAmountMicros': instance.priceAmountMicros,
       'priceCurrencyCode': instance.priceCurrencyCode,
@@ -42,7 +44,7 @@ Map<String, dynamic> _$SkuDetailsWrapperToJson(SkuDetailsWrapper instance) =>
       'subscriptionPeriod': instance.subscriptionPeriod,
       'title': instance.title,
       'type': const SkuTypeConverter().toJson(instance.type),
-      'isRewarded': instance.isRewarded,
+      'originalJson': instance.originalJson,
       'originalPrice': instance.originalPrice,
       'originalPriceAmountMicros': instance.originalPriceAmountMicros,
     };

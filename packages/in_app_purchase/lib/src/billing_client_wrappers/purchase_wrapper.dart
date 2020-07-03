@@ -36,7 +36,9 @@ class PurchaseWrapper {
       @required this.originalJson,
       @required this.developerPayload,
       @required this.isAcknowledged,
-      @required this.purchaseState});
+      @required this.purchaseState,
+      @required this.obfuscatedAccountId,
+      @required this.obfuscatedProfileId});
 
   factory PurchaseWrapper.fromJson(Map map) => _$PurchaseWrapperFromJson(map);
 
@@ -54,7 +56,9 @@ class PurchaseWrapper {
         typedOther.isAutoRenewing == isAutoRenewing &&
         typedOther.originalJson == originalJson &&
         typedOther.isAcknowledged == isAcknowledged &&
-        typedOther.purchaseState == purchaseState;
+        typedOther.purchaseState == purchaseState &&
+        typedOther.obfuscatedAccountId == obfuscatedAccountId &&
+        typedOther.obfuscatedProfileId == obfuscatedProfileId;
   }
 
   @override
@@ -68,7 +72,9 @@ class PurchaseWrapper {
       isAutoRenewing,
       originalJson,
       isAcknowledged,
-      purchaseState);
+      purchaseState,
+      obfuscatedAccountId,
+      obfuscatedProfileId);
 
   /// The unique ID for this purchase. Corresponds to the Google Payments order
   /// ID.
@@ -104,6 +110,12 @@ class PurchaseWrapper {
   /// Note though that verifying a purchase locally is inherently insecure (see
   /// the article for more details).
   final String originalJson;
+
+  /// Obfuscated account id specified in Billing flow, uniquely associated with the user's account in your app.
+  final String obfuscatedAccountId;
+
+  /// Obfuscated profile id specified in Billing flow, uniquely associated with the user's profile in your app
+  final String obfuscatedProfileId;
 
   /// The payload specified by the developer when the purchase was acknowledged or consumed.
   final String developerPayload;
